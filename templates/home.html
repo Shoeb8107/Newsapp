@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <!-- loader-wrapper -->
+	<div id="loader-wrapper">
+
+		<div id="loader"></div>
+
+		<div class="loader-section section-left"></div>
+		<div class="loader-section section-right"></div>
+	</div>
+ <!-- Page Content -->
+  <div class="container">
+
+
+
+    <div class="row">
+
+      <!-- Newsfeed Column - Center-->
+      <div class="col-md-8">
+        {% if request.user.is_authenticated %}
+            <h5 class="card my-4 text-center card-header">Hello {{request.user.username}}, your news for today:</h5>
+        {% else %}
+            <h5 class="card my-4 text-center card-header">Welcome to Newsapp.<br>
+               <div class="text-muted">If you want to add profile picture and , please, <b>register</b> or <b>login!</b>
+               </div>
+            </h5>
+        {% endif %}
+
+        {% for article in articles %}
+
+            <div class="card mb-4">
+                <img class="card-img-top" src="{{ article.image }}" alt="Card image cap">
+                <div class="card-body">
+                    <h2 class="card-title">{{ article.headline }}</h2>
+                    <p class="card-text">{{ article.body }}</p>
+                    <a href="{{ article.url }}"  target="_blank" class="btn btn-primary">Read More &rarr;</a>
+
+                        {% if article.favourite %}
+                           <a href="{% url 'favourite2' pk=article.pk %}" class="btn btn-outline-info">Unlike</a>
+                        {% else %}
+                            <a href="{% url 'favourite2' pk=article.pk %}" class="btn btn-outline-info">Like</a>
+                        {% endif %}
+                        <br></div>
+
+                        <p>
+                            <button type="button" data-url="{% url 'comments' article.pk %}" id="commentsButton" class="btn btn-primary js-comment">
+                              <span class="glyphicon glyphicon-plus"></span>
+                              Comments
+                            </button>
+                        </p>
+                          
+                          <div class="modal fade" id="modal-comment">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                              </div>
+                            </div>
+
+
+
+
+
+
+
+                </div>
+                <div class="card-footer text-muted">
+                    Posted on {{ article.date | date:"F d Y" }} by
+                    {% if article.source == "BBC" %}
+                        <a href="https://www.bbc.co.uk" target= _blank>BBC News UK</a>
+                    {% else %}
+                        <a href="">Unknown Source</a>
+                    {% endif %}
+                    Category: <b>{{ article.category | title }}</b> <br>
+                    <script type="IN/Share" data-url=" {{ article.url }} "></script>
+
+                </div>
+
+            </div>
+          {% endfor %}
+
+
+
+       </div>
+      <!--  END Newsfeed Column - Center-->
+
+    </div>
+  </div>
+
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+ 
+  <script src="{% static 'js/comment2.js' %}"></script>
+
+{% endblock content %}
+ <!-- Page Content -->
+
+
+
+ 
+ 
+ 
+
+

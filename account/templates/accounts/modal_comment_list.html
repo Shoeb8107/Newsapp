@@ -1,0 +1,27 @@
+{% for comment in comments %}
+<tr>
+  <td>{{ comment.description }}</td>
+  <td>{{ comment.person }}</td>
+  {% if request.user == comment.person %}
+  <td>    
+    <button type="button" id="deleteButton"
+              class="btn btn-danger btn-sm js-delete-book"
+              data-url="{% url 'delete-comment' comment.pk %}">
+        <span class="glyphicon glyphicon-trash"></span> Delete
+</button>  
+  
+  <button type="button"
+    class="btn btn-warning btn-sm js-update-book"
+    data-url="{% url 'update-comment' comment.pk %}">
+<span class="glyphicon glyphicon-pencil"></span> Edit
+</button>
+
+
+</td>
+{% endif %}
+</tr>
+{% empty %}
+<tr>
+  <td colspan="7" class="text-center bg-warning">No Comments</td>
+</tr>
+{% endfor %}
